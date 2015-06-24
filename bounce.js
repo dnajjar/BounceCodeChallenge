@@ -1,22 +1,40 @@
 
 // number of items in cart
 var cart_items = jQuery(".amount").text().match(/\d+/);
+// calculate cart total, allowing for case where there is more than one of each item
 
-// item counts in an array 
+//get individual item counts and push into an array 
 var item_counts = jQuery(".product-details").find("strong");
+var counts_array = [];
+item_counts.each(function(){
+  counts_array.push(parseInt((jQuery(this).text())));
+})
 
-// item costs 
+// get individual item costs and push into an array
 var item_prices = jQuery(".product-details").find(".price");
+var price_array = [];
+item_prices.each(function(){
+  price_array.push(parseInt(jQuery(this).text().replace("$", "")));
+})
+
+// multiply each individual item count by its cost to get total
+var total = 0;
+for(var i=0; i< price_array.length; i++) {
+    total += price_array[i]*counts_array[i];
+}
 
 // number of unique items: 
 var unique_items = jQuery(".product-details").find("strong").length;
 
-// count of each item
-var item_count = parseInt(jQuery(".product-details").first().find("strong").text())
-
 // text to insert in overlay
 var count_text = ["Items in your cart:", cart_items[0]].join(" ");
+var total_text = ["Your total is: $", total].join("");
+// item images
 
+var item_images = jQuery(".product-image");
+
+// functions to call on scroll to bottom 10%
+// semi transparent black background
 function create_background() {
   var d = document.createElement('div');
   jQuery(d).css({
@@ -34,6 +52,8 @@ function create_background() {
   jQuery('body').append(d);
 }
 
+// overlay with cart details
+
 function create_overlay(){
 var d = document.createElement('div');
 jQuery(d).css({
@@ -50,8 +70,12 @@ jQuery(d).css({
   jQuery("<input type='button' value='Close' class='close' />").appendTo(jQuery("#overlay"));
   jQuery('<a href="https://www.prana.com/checkout/onepage/" style="text-decoration:none;">CHECKOUT</a>').appendTo(jQuery("#overlay"));
   jQuery('<p>'+count_text+'</p>').appendTo(jQuery("#overlay"));
-  // jQuery("#overlay").prepend('<div class="close" style="color: white">close</div>');
+  jQuery('<p>'+total_text+'</p>').appendTo(jQuery("#overlay"));
+  item_images.each(function( index ) {
+   jQuery("#overlay").append(this);
+  });
 }
+// scroll listener 
 
 jQuery(window).scroll(function () { 
   if ((jQuery(window).scrollTop()+ jQuery(window).height()) >= (jQuery('body').height()*0.9)) {
@@ -65,9 +89,4 @@ jQuery(window).scroll(function () {
     });
   }
 });
-
-// jQuery( ".close" ).click(function() {
-//   jQuery( this ).parent().remove();
-//   jQuery("#background").remove();
-// });
 
