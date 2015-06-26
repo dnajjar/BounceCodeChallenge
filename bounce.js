@@ -1,7 +1,3 @@
-// var script = document.createElement('script');
-// script.src = "https://ajax.googleapis.com/ajax/libs/jQuery/1.6.3/jQuery.min.js";
-// document.getElementsByTagName('head')[0].appendChild(script);
-
 // number of items in cart
 var cart_items = jQuery(".amount").text().match(/\d+/);
 
@@ -70,19 +66,15 @@ jQuery(d).css({
   zIndex: '1000000'
   }).attr('id', 'overlay');
   jQuery('body').append(d);
-  // jQuery("<input type='button' value='Close' class='close' />").appendTo(jQuery("#overlay"));
-  jQuery('<h3><a href="#" style="text-decoration:none; font-size: 10px, font-family:  ‘Crimson Text’. serif, right: 5px;" class="close">x</a></h3>').appendTo(jQuery("#overlay"));
-  jQuery('<h3><p>'+count_text+'</p></h3>').appendTo(jQuery("#overlay"));
-  jQuery('<h3><p>'+total_text+'</p></h3>').appendTo(jQuery("#overlay"));
-  
-jQuery('<div id="quicklook-addToWishlist"><a href="#" class="close link-wishlist feature feature-icon-hover first v-centered-content wishshlist-button"><span class="close v-center">No Thanks</span></a></div>').appendTo(jQuery("#overlay"));
-jQuery('<div><a href="https://www.prana.com/checkout/onepage/" class="link-wishlist feature feature-icon-hover first v-centered-content wishshlist-button"><span class="button-cart orange v-center">Checkout</span></a></div>').appendTo(jQuery("#overlay"));
-
-// jQuery('</h3><a href="https://www.prana.com/checkout/onepage/" style="text-decoration:none; font-size: 20px" class="button btn-cart v-center orange">Checkout</a></h3>').appendTo(jQuery("#overlay"));
+  jQuery('<a title="Close" class="close fancybox-item fancybox-close" href="javascript:;"></a>').appendTo(jQuery("#overlay"));
+  jQuery('<div id="lightbox-tagline" style="font-size: 18px">Forget Something?</div><br><br>').appendTo(jQuery("#overlay"));
+  jQuery('<h3 style="font-size: 16px">'+count_text+'</h3>').appendTo(jQuery("#overlay"));
+  jQuery('<h3 style="font-size: 16px">'+total_text+'</h3>').appendTo(jQuery("#overlay"));
   item_images.each(function( index ) {
    jQuery("#overlay").append(this);
   });
-
+  jQuery("#overlay").append('<br><br>');
+  jQuery('<a href="https://www.prana.com/checkout/onepage/" target="_parent"><button type="submit" class="button btn-cart v-center orange"><span><span>Checkout</span></span></button></a><br>').appendTo(jQuery("#overlay"));
 }
 // function that returns true if user is logged in and false otherwise
 function logged_in(){
@@ -102,7 +94,7 @@ jQuery(window).scroll(function () {
     create_overlay();
   } 
     jQuery( ".close" ).click(function() {
-    jQuery(this).parent().parent().parent().remove(); 
+    jQuery(this).parent().remove(); 
     jQuery("#background").remove();
     });
   }
