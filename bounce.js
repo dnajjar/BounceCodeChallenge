@@ -1,4 +1,4 @@
-// number of items in cart
+// get number of items in cart
 var cart_items = jQuery(".amount").text().match(/\d+/);
 
   // calculate cart total, allowing for case where there is more than one of each item
@@ -22,11 +22,11 @@ for(var i=0; i< price_array.length; i++) {
     total += price_array[i]*counts_array[i];
 }
 
-// text to insert in overlay
+// get text to insert in overlay
 var count_text = ["Items in your cart:", cart_items[0]].join(" ");
-var total_text = ["Your total is: $", total].join("");
+var total_text = ["Your cart total is $", total].join("");
 
-// item images
+// get item images
 var item_images = jQuery(".product-image");
 
   // functions to call when user scrolls to bottom 10% of page
@@ -41,10 +41,8 @@ function create_background() {
   position: 'absolute',
   top: 0,
   left: 0,
-  zIndex: 100000
-          
+  zIndex: 10000  
   }).attr('id', 'background');
-
   jQuery('body').append(d);
 }
 
@@ -61,12 +59,12 @@ jQuery(d).css({
   top: "30%",
   left: '37%',
   width: '26%',
-  height: '300px',
+  height: '230px',
   position: 'fixed',
-  zIndex: '1000000'
+  zIndex: 100000
   }).attr('id', 'overlay');
   jQuery('body').append(d);
-  jQuery('<a title="Close" class="close fancybox-item fancybox-close" href="javascript:;"></a>').appendTo(jQuery("#overlay"));
+  jQuery('<a class="close fancybox-item fancybox-close" href="javascript:;"></a>').appendTo(jQuery("#overlay"));
   jQuery('<div id="lightbox-tagline" style="font-size: 18px">Forget Something?</div><br><br>').appendTo(jQuery("#overlay"));
   jQuery('<h3 style="font-size: 16px">'+count_text+'</h3>').appendTo(jQuery("#overlay"));
   jQuery('<h3 style="font-size: 16px">'+total_text+'</h3>').appendTo(jQuery("#overlay"));
@@ -74,7 +72,7 @@ jQuery(d).css({
    jQuery("#overlay").append(this);
   });
   jQuery("#overlay").append('<br><br>');
-  jQuery('<a href="https://www.prana.com/checkout/onepage/" target="_parent"><button type="submit" class="button btn-cart v-center orange"><span><span>Checkout</span></span></button></a><br>').appendTo(jQuery("#overlay"));
+  jQuery('<a href="https://www.prana.com/checkout/onepage/"><button type="submit" class="button btn-cart v-center orange"><span><span>Checkout</span></span></button></a><br>').appendTo(jQuery("#overlay"));
 }
 // function that returns true if user is logged in and false otherwise
 function logged_in(){
@@ -86,9 +84,9 @@ if (text.substring(95,102)=="Sign In"){
   }
 }
 
-// Window scroll listener that triggers overlay and black background if user is signed in and they haven't already been triggered 
+// Window scroll listener that triggers overlay and black background if they haven't already been triggered and user is signed in 
 jQuery(window).scroll(function () { 
-  if ((logged_in()==false) && ((jQuery(window).scrollTop()+ jQuery(window).height()) >= (jQuery('body').height()*0.9))) {
+  if ((logged_in()) && ((jQuery(window).scrollTop()+ jQuery(window).height()) >= (jQuery('body').height()*0.9))) {
     if (jQuery("#overlay").length == 0){
     create_background();
     create_overlay();
